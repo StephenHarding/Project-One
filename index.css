@@ -1,0 +1,25 @@
+#area {
+  background-color: grey;
+  border-style: solid;
+  border-width: 5px;
+  height: 2100px;
+  width: 2100px;
+  position: relative;
+  left: 0;
+  right: 0;
+}
+#screen {
+  width: 1000px;
+  height:600px;
+  overflow: hidden;
+}
+#player {
+  background-color:black;
+  color: black;
+  height: 50px;
+  width: 50px;
+  position: absolute;
+  left: 400px;
+  top: 400px
+
+}
