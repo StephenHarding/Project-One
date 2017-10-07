@@ -9,17 +9,38 @@
   right: 0;
 }
 #screen {
+  margin: auto;
   width: 1000px;
   height:600px;
   overflow: hidden;
 }
+#sarea {
+  width: 700px;
+  height: 400px;
+  left: 22%;
+  top: 20%;
+  position: absolute;
+  opacity: 0.5;
+  background-color: red;
+}
+#inside {
+  background-color: blue;
+  opacity: 0.3;
+
+  width:1850px;
+  height:1850px;
+  position: relative;
+  left: 150;
+  top: 150;
+
+}
 #player {
   background-color:black;
   color: black;
-  height: 50px;
-  width: 50px;
-  position: absolute;
+  height: 40px;
+  width: 40px;
+  position: relative;
   left: 400px;
-  top: 400px
+  top: 100px
 
 }
