@@ -58,3 +58,6 @@ p {
   margin: 0 auto;
   background-color: blue;
 }
+#level {
+  float:right;
+}

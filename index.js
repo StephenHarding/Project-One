@@ -1,5 +1,5 @@
 var player = document.getElementById('player')
-var points = 0
+var points = 3
 var position = {
   pLeft:400,
   pTop:100,
@@ -8,11 +8,11 @@ var position = {
   sLeft: 0,
   sTop: 0
 }
-var level = 1
+var level = 2
 var moveCount = 0
 var badMove = 0
 var area = document.getElementById('area')
-
+var thisForDodge
 document.addEventListener("keydown", function(e){
   if (e.keyCode === 32) {
     spaceBar()
@@ -107,16 +107,13 @@ const switchDirectionX = function($this) {
       var x = Math.random()*(20 - (-20)) + (-20)
       x = Math.round(x)
       $this.find(".bx").html(`${x}`)
-      console.log(x)
 
 }
 const switchDirectionY = function($this) {
 
-      console.log("hello2")
       var y = Math.random()*(20 - (-20)) + (-20)
       y = Math.round(y)
       $this.find(".by").html(`${y}`)
-      console.log(y)
      /* var x = parseInt($this.find(".bx").html())
       var y = (random())*Math.round(Math.sqrt(400 - (x**2)))
       $this.find(".by").html(`${y}`)
@@ -130,6 +127,9 @@ const createBaddies = function() {
    if (level === 2) {
       var baddies = ['baddie3','baddie4','baddie5', 'baddie6', 'baddie7']
    }
+   if (level === 3) {
+      var baddies = ['baddie8', 'baddie9', 'baddie10', 'baddie11', 'baddie12']
+   }
   baddies.forEach(function(b) {
     $("#area").append(`<div id=${b} class ='baddie'></div>`)
   })
@@ -140,6 +140,9 @@ const createBaddies = function() {
       $this.css({"left" : `${Math.floor(Math.random()*2060)}px`, "top" : `${Math.floor(Math.random()*2060)}px`})
       if(level === 2) {
          $this.addClass("level2")
+      }
+      if (level === 3) {
+         $this.addClass('level3')
       }
       $this.append( `<p id='${b}x' class="bx">0</p>`)
       $this.append( `<p id='${b}y' class="by">0</p>`)
@@ -153,18 +156,44 @@ const createBaddies = function() {
 
 
 const pictureSwitch = function($this) {
-   if (badMove % 2 && $this.hasClass("dead") === false) {
+   if (badMove % 2 && level < 3) {
       $this.css({
          "background-image" : "url(Enemy1.png)"
       })
       badMove += 1
    }
-   else if ($this.hasClass("dead") === false) {
+   else if (level < 3) {
       $this.css({
         "background-image" : "url(Enemy2.png)"
       })
       badMove += 1
     }
+    if (badMove % 2 && level > 2) {
+      $this.css({
+         "background-image" : "url(EnemyK1.png)"
+      })
+      badMove += 1
+    }
+    else if (level > 2) {
+      $this.css({
+         "background-image" : "url(EnemyK2.png)"
+      })
+      badMove += 1
+    }
+}
+
+const level2dodge = function($this, $p) {
+   if (Math.abs($p.top - position.pTop) < 100 && Math.abs($p.left - position.pLeft) < 100 && $this.hasClass("dodged") === false) {
+        switchDirectionX($this)
+        switchDirectionY($this)
+        $this.addClass("dodged")
+        thisForDodge = $this
+        setTimeout(function($this){
+            thisForDodge.removeClass('dodged')
+            console.log("timer worked")
+        }, 1500)
+   }
+
 }
 
 const timer = function() {
@@ -172,6 +201,9 @@ const timer = function() {
 
     $p = $(this).position()
     var $this = $(this)
+    if (level === 2) {
+      level2dodge($this, $p)
+    }
     if ($p.top + 20 > 2060) {
       while (parseInt($this.find(".by").html()) > 0) {
         switchDirectionY($this)
@@ -222,14 +254,13 @@ const spaceBar = function() {
   window.setTimeout(function() {
     $("#weapon").remove()
     clicked = false
-  }, 300)
+  }, 500)
   $(".baddie ").each(function(){
     let wP = $("#weapon").position()
     let bP = $(this).position()
 
     if (wP.left + 30 >= bP.left && wP.left <= bP.left + 40 && wP.top + 30 >= bP.top && wP.top <= bP.top + 40) {
       if ($(this).hasClass("dead") === false) {
-      console.log("AAAAAAAAAAAAAA")
       $(this).find("p").remove()
       $(this).css({
         "background-image" : "url(Enemy3.png)"
@@ -248,9 +279,17 @@ createBaddies()
 const levelCheck = function() {
    if (points === 3 && level === 1) {
       level = 2
+      $("#level").html(`Level 2`)
+      createBaddies()
+   }
+   if (points === 8 && level === 2){
+      $("#level").html("Level 3")
+      level = 3
       createBaddies()
    }
 }
+$('#level').html(`Level ${level}`)
+$('#score').html(`Spleens Collected: ${points}`)
 window.setInterval(timer, 150)
 
 
