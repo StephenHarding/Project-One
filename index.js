@@ -9,7 +9,8 @@ var position = {
   sTop: 0
 }
 var level = 1
-
+var moveCount = 0
+var badMove = 0
 var area = document.getElementById('area')
 
 document.addEventListener("keydown", function(e){
@@ -76,6 +77,20 @@ document.addEventListener("keydown", function(e){
       position.pTop += 20
     }
   }
+  if (e.keyCode === 37 || e.keyCode === 38 || e.keyCode === 39 || e. keyCode === 40) {
+    if(moveCount % 2) {
+      $("#player").css({
+        "background-image" : "url(player2.png)"
+      })
+      moveCount += 1
+    }
+    else {
+      $("#player").css({
+        "background-image" : "url(player1.png)"
+      })
+      moveCount += 1
+    }
+  }
 })
     var random = function() {
       if(Math.floor(Math.random() * 2) === 1) {
@@ -108,23 +123,49 @@ const switchDirectionY = function($this) {
       console.log(y) */
 
     }
-if (level === 1) {
-  var baddies = ['baddie0','baddie1','baddie2']
+const createBaddies = function() {
+   if (level === 1) {
+      var baddies = ['baddie0','baddie1','baddie2']
+   }
+   if (level === 2) {
+      var baddies = ['baddie3','baddie4','baddie5', 'baddie6', 'baddie7']
+   }
   baddies.forEach(function(b) {
     $("#area").append(`<div id=${b} class ='baddie'></div>`)
   })
-  $('.baddie').css({"background-color" : "black" , "width" : "40px", "height" : "40px",
+  $('.baddie').css({"background-image" : "url(Enemy1.png)" , "width" : "40px", "height" : "40px",
    "position" : "absolute"})
   $('.baddie').each(function(b){
       var $this = $(this)
       $this.css({"left" : `${Math.floor(Math.random()*2060)}px`, "top" : `${Math.floor(Math.random()*2060)}px`})
+      if(level === 2) {
+         $this.addClass("level2")
+      }
       $this.append( `<p id='${b}x' class="bx">0</p>`)
       $this.append( `<p id='${b}y' class="by">0</p>`)
+      $this.find("p").css({
+        "font-size" : "0px"
+      })
       switchDirectionX($this)
       switchDirectionY($this)
   })
 }
 
+
+const pictureSwitch = function($this) {
+   if (badMove % 2 && $this.hasClass("dead") === false) {
+      $this.css({
+         "background-image" : "url(Enemy1.png)"
+      })
+      badMove += 1
+   }
+   else if ($this.hasClass("dead") === false) {
+      $this.css({
+        "background-image" : "url(Enemy2.png)"
+      })
+      badMove += 1
+    }
+}
 
 const timer = function() {
   $('.baddie').each(function(){
@@ -155,6 +196,7 @@ const timer = function() {
         switchDirectionY($this)
       }
     }
+    pictureSwitch($this)
 
     $this.css({'left' : `${$p.left + parseInt($this.children(".bx").html()) + "px"}`,
       "top" : `${$p.top + parseInt($this.children(".by").html()) + "px"}`
@@ -172,11 +214,11 @@ const spaceBar = function() {
     "top" : `${position.pTop + 5}px`,
     "position" : "absolute",
     "width" : "30px",
-    "height" : "30px",
-    "background-color" : "blue"
+    "height" : "26px",
+    "background-image" : "url(SpleenCollector.png)"
   })
   clicked = true
-  }
+
   window.setTimeout(function() {
     $("#weapon").remove()
     clicked = false
@@ -186,14 +228,28 @@ const spaceBar = function() {
     let bP = $(this).position()
 
     if (wP.left + 30 >= bP.left && wP.left <= bP.left + 40 && wP.top + 30 >= bP.top && wP.top <= bP.top + 40) {
+      if ($(this).hasClass("dead") === false) {
       console.log("AAAAAAAAAAAAAA")
       $(this).find("p").remove()
       $(this).css({
-        "background-color" : "blue"
+        "background-image" : "url(Enemy3.png)"
       })
+      $(this).addClass("dead")
+      $(this).removeClass("baddie")
       points += 1
+      $('#score').html(`Spleens Collected: ${points}`)
+      levelCheck()
+      }
     }
   })
+}
+}
+createBaddies()
+const levelCheck = function() {
+   if (points === 3 && level === 1) {
+      level = 2
+      createBaddies()
+   }
 }
 window.setInterval(timer, 150)
 

@@ -1,7 +1,8 @@
 #area {
   background-color: grey;
+  background-image:url(background.jpg);
   border-style: solid;
-  border-width: 5px;
+  border-width: 10px;
   height: 2100px;
   width: 2100px;
   position: relative;
@@ -21,10 +22,8 @@
   top: 20%;
   position: absolute;
   opacity: 0.5;
-  background-color: red;
 }
 #inside {
-  background-color: blue;
   opacity: 0.3;
 
   width:1850px;
@@ -35,12 +34,27 @@
 
 }
 #player {
-  background-color:black;
+  background-image: url(player1.png);
+  background-repeat: no-repeat;
   color: black;
   height: 40px;
   width: 40px;
   position: relative;
   left: 400px;
   top: 100px
-
+}
+p {
+  padding: 0px 20px 0px 20px;
+  display: inline-block;
+  background-color: red;
+  margin:;
+}
+#spleen {
+  display: inline-block;
+  background-color: yellow;
+}
+#pContainer {
+  width: 70%;
+  margin: 0 auto;
+  background-color: blue;
 }
