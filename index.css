@@ -61,3 +61,6 @@ p {
 #level {
   float:right;
 }
+button {
+  margin-left: 30px
+}
