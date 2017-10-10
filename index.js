@@ -342,7 +342,7 @@ const levelCheck = function() {
          "width" : "65px",
          "background-image" : "url(playerWithSpleenHat.png)"
       })
-      $('#sarea').append("<p>Winner</p>")
+      $('#sarea').append(`<p>Winner ${$('#timer').html()}</p>`)
        $("#sarea").find("p").css({
       "font-size" : "32px",
       "text-align" : "center",
@@ -384,6 +384,7 @@ const restart = function() {
    $('#score').html(`x ${points}`)
    $(".baddie").remove()
    $(".dead").remove()
+   s1 = 0
     $('#player').css({
       "background-image" : "url(player1.png)"
     })
@@ -394,10 +395,26 @@ $('#level').html(`Level ${level}`)
 $('#score').html(`x ${points}`)
 levelCheck()
 window.setInterval(timer, 150)
- $('#rButton').keydown(function(event) {
-   return
- });
-$("#rButton").click(function(event) {
-  reset()
-})
 
+$("#rButton").click(function(event) {
+  restart()
+})
+let s1 = 0
+window.setInterval(function(){
+  if (dead === false){
+  s1 += 1
+  }
+  let s = s1 % 60 % 60
+  let m = Math.floor(s1 / 60 % 60)
+  let h = Math.floor(s1 / 60 / 60)
+  if (m < 10) {
+    m = `0${m}`
+  }
+    s = Math.floor(s)
+  if (s < 10){
+    s = `0${s}`
+  }
+  $("#timer").html(`${h}:${m}:${s}`)
+  console.log(s1)
+
+}, 1000)

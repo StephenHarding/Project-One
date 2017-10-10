@@ -1,5 +1,6 @@
 body {
   background-color: #3399ff;
+  font-family: 'Roboto Slab', serif
 }
 
 #area {
@@ -45,7 +46,8 @@ body {
   width: 40px;
   position: relative;
   left: 400px;
-  top: 100px
+  top: 100px;
+  animation: ;
 }
 p {
   padding: 0px 20px 0px 20px;
@@ -79,4 +81,10 @@ p {
 }
 button {
   margin-left: 30px
+}
+#timer {
+  margin-left: 160px;
+  color: green;
+  background-color: black;
+  width: 50px;
 }
