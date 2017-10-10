@@ -1,12 +1,12 @@
 let player = document.getElementById('player')
-let points = 13
+let points = 0
 let position = {
   pLeft:400,
   pTop:100,
   aLeft: 0,
   aTop: 0,
 }
-let level = 3
+let level = 0
 let moveCount = 0
 let badMove = 0
 let area = document.getElementById('area')

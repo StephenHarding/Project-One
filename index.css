@@ -59,7 +59,7 @@ p {
   display: inline-block;
 }
 #pContainer {
-  width: 70%;
+  width: 80%;
   margin: 0 auto;
   background-color: #666699;
 }
@@ -83,8 +83,15 @@ button {
   margin-left: 30px
 }
 #timer {
-  margin-left: 160px;
+  margin-left: 20px;
   color: green;
   background-color: black;
   width: 50px;
 }
+#title {
+
+  font-family: 'Nosifer', cursive;
+  color: white;
+  background-color:#666699;;
+}
+
