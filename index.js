@@ -1,12 +1,12 @@
 let player = document.getElementById('player')
-let points = 0
+let points = 13
 let position = {
   pLeft:400,
   pTop:100,
   aLeft: 0,
   aTop: 0,
 }
-let level = 0
+let level = 3
 let moveCount = 0
 let badMove = 0
 let area = document.getElementById('area')
@@ -68,7 +68,7 @@ document.addEventListener("keydown", function(e){
     if (position.pTop >= 2060){
       return
     }
-    if (position.pTop - ((-1)*position.aTop) + 20 > 480 && (position.pTop < 2000 && position.pTop > 440 )) {
+    if (position.pTop - ((-1)*position.aTop) + 20 > 480 && (position.pTop < 2080 && position.pTop > 440 )) {
       area.style.top = position.aTop - 20 + 'px'
       position.aTop -= 20
       player.style.top = position.pTop + 20 + 'px'
@@ -103,27 +103,22 @@ document.addEventListener("keydown", function(e){
       }
     }
 
-const switchDirectionX = function($this) {
-  /*console.log(`this is ${(Math.abs(parseInt($this.find(".bx").html())) + Math.abs(parseInt($this.find(".by").html()))) < 10}`)
-      */
-      let x = Math.random()*(20 - (-20)) + (-20)
-      x = Math.round(x)
-      $this.find(".bx").html(`${x}`)
-
+const switchDirection = function($this) {
+      let x = 0
+      let y = 0
+      while (Math.abs(x) + Math.abs(y) < 15) {
+         x = Math.random()*(20 - (-20)) + (-20)
+         x = Math.round(x)
+         $this.find(".bx").html(`${x}`)
+         y = Math.random()*(20 - (-20)) + (-20)
+         y = Math.round(y)
+         $this.find(".by").html(`${y}`)
+      }
 }
-const switchDirectionY = function($this) {
 
-      let y = Math.random()*(20 - (-20)) + (-20)
-      y = Math.round(y)
-      $this.find(".by").html(`${y}`)
-     /* let x = parseInt($this.find(".bx").html())
-      let y = (random())*Math.round(Math.sqrt(400 - (x**2)))
-      $this.find(".by").html(`${y}`)
-      console.log(y) */
-
-    }
 const createBaddies = function() {
    if (level === 1) {
+
       var baddies = ['baddie0','baddie1','baddie2']
    }
    if (level === 2) {
@@ -139,7 +134,7 @@ const createBaddies = function() {
     $("#area").append(`<div id=${b} class ='baddie'></div>`)
   })
   $('.baddie').addClass("1")
-  $('.baddie').css({"background-image" : "url(Enemy1.png)" , "width" : "40px", "height" : "40px",
+  $('.baddie').css({"background-image" : "url(Enemy1.png)" , "width" : "40px", "height" : "40px", "background-repeat" : "no-repeat",
    "position" : "absolute"})
   $('.baddie').each(function(b){
       var $this = $(this)
@@ -149,8 +144,7 @@ const createBaddies = function() {
       $this.find("p").css({
         "font-size" : "0px"
       })
-      switchDirectionX($this)
-      switchDirectionY($this)
+        switchDirection($this)
   })
 }
 
@@ -186,21 +180,61 @@ const pictureSwitch = function($this) {
     }
 }
 
+/* const homing = function($this){ */
+/*  40 100
+  100/40 =
+  2.5x1 + x1 = 20
+  3.5x1 = 20
+  20/3.5 = x
+  y= 2.5x1
+  $b =$this.position()
+
+ x1 =(position.pLeft - $b.left)
+ y1 =(position.pTop - $b.top)
+ c = y1 / x1
+x = 20/(c + 1)
+y = c * x1 */
+/*  let $b = $this.position()
+  let x1 = (position.pLeft - $b.left)
+  let y1 = (position.pTop - $b.top)
+  if (y1/x1 > 20) {
+  var  c = 20
+  }
+  else if (y1/x1 < -20) {
+  var  c = - 20
+  }
+  else if (y1/x1 < 1 && y1/x1 > 0) {
+  var  c = 1
+  }
+  else if (y1/x1 > -1 && y1/x1) {
+    c = -1
+    var c = -1
+  }
+  else {
+    var c = (y1/x1)
+  }
+  let x = (20/(c + 1))
+  let y = c * x1
+  $this.find(".bx").html(`${x}`)
+  $this.find(".by").html(`${y}`)
+
+}
+*/
 const level2dodge = function($this, $p) {
    if (Math.abs($p.top - position.pTop) < 100 && Math.abs($p.left - position.pLeft) < 100 && $this.hasClass("dodged") === false) {
-        switchDirectionX($this)
-        switchDirectionY($this)
+        if (level === 2 || level === 4) {switchDirection($this)
         $this.addClass("dodged")
         thisForDodge = $this
         setTimeout(function($this){
             thisForDodge.removeClass('dodged')
         }, 1500)
+      }
    }
 
 }
 const level3Collision = function($this, $b) {
    let $play = $('#player').position()
-   if ($play.top > $b.top - 10 && $play.top < $b.top + 50 && $play.left > $b.left - 10 && $play.left < $b.left + 50) {
+   if ($play.top > $b.top && $play.top < $b.top + 40 && $play.left > $b.left && $play.left < $b.left + 40 || $play.top + 40 > $b.top  && $play.top + 40 < $b.top + 44 && $play.left + 40 > $b.left - 4 && $play.left + 40 < $b.left + 44) {
       if (dead === false) {
          $("#sarea").append("<p>You Are Dead. No Hat For You</p>")
          $("#sarea").find("p").css({
@@ -210,6 +244,7 @@ const level3Collision = function($this, $b) {
       })
       dead = true
       }
+
    }
 }
 
@@ -227,26 +262,22 @@ const timer = function() {
     }
     if ($p.top + 20 > 2060) {
       while (parseInt($this.find(".by").html()) > 0) {
-        switchDirectionY($this)
-        switchDirectionX($this)
+        switchDirection($this)
       }
     }
     else if ($p.top - 20 < 0) {
       while (parseInt($this.find(".by").html()) < 0) {
-        switchDirectionY($this)
-        switchDirectionX($this)
+        switchDirection($this)
       }
     }
     if ($p.left + 20 > 2060) {
       while (parseInt($this.find(".bx").html()) > 0) {
-        switchDirectionX($this)
-        switchDirectionY($this)
+        switchDirection($this)
       }
     }
     else if ($p.left - 20 < 0) {
       while (parseInt($this.find(".bx").html()) < 0) {
-        switchDirectionX($this)
-        switchDirectionY($this)
+        switchDirection($this)
       }
     }
     pictureSwitch($this)
@@ -289,7 +320,7 @@ const spaceBar = function() {
       $(this).addClass("dead")
       $(this).removeClass("baddie")
       points += 1
-      $('#score').html(`Spleens Collected: ${points}`)
+      $('#score').html(`x ${points}`)
       levelCheck()
       }
     }
@@ -298,26 +329,28 @@ const spaceBar = function() {
 }
 
 const levelCheck = function() {
-   if (level === 0) {
-      level = 1
-      var levelChange = true
-   }
-   if (points === 3 && level === 1) {
-      level = 2
-      var levelChange = true
-   }
-   if (points === 8 && level === 2){
-      level = 3
-      var levelChange = true
-   }
-   if (points === 13 && level === 3){
-      level = 4
+
+   if (points === 8 && level === 2 || points === 13 && level === 3 || points === 3 && level === 1 || level === 0){
+      level += 1
       var levelChange = true
    }
    if (points === 19 && level === 4) {
-      level = end
+      level = "end"
+      dead = true
+      $('#player').css({
+         "height" : "100px",
+         "width" : "65px",
+         "background-image" : "url(playerWithSpleenHat.png)"
+      })
+      $('#sarea').append("<p>Winner</p>")
+       $("#sarea").find("p").css({
+      "font-size" : "32px",
+      "text-align" : "center",
+      "vertical-align" : "middle"
+      })
    }
    if (levelChange === true){
+
       $("#level").html(`Level ${level}`)
       $("#sarea").append(`<p>Level ${level}</p>`)
       $("#sarea").find("p").css({
@@ -329,6 +362,7 @@ const levelCheck = function() {
          $("#sarea").find("p").remove()
       }, 2000)
       createBaddies()
+      levelChange = false
    }
 }
 const restart = function() {
@@ -343,18 +377,27 @@ const restart = function() {
    level = 0
    points = 0
    dead = false
+   console.log("code is being run")
+   player.focus()
    $('#sarea').find("p").remove()
    $('#level').html(`Level ${level}`)
-   $('#score').html(`Spleens Collected: ${points}`)
+   $('#score').html(`x ${points}`)
    $(".baddie").remove()
    $(".dead").remove()
+    $('#player').css({
+      "background-image" : "url(player1.png)"
+    })
    levelCheck()
 
 }
 $('#level').html(`Level ${level}`)
-$('#score').html(`Spleens Collected: ${points}`)
+$('#score').html(`x ${points}`)
 levelCheck()
 window.setInterval(timer, 150)
-
-
+ $('#rButton').keydown(function(event) {
+   return
+ });
+$("#rButton").click(function(event) {
+  reset()
+})
 

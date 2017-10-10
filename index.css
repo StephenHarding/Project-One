@@ -1,3 +1,7 @@
+body {
+  background-color: #3399ff;
+}
+
 #area {
   background-color: grey;
   background-image:url(background.jpg);
@@ -51,15 +55,27 @@ p {
 }
 #spleen {
   display: inline-block;
-  background-color: yellow;
 }
 #pContainer {
   width: 70%;
   margin: 0 auto;
-  background-color: blue;
+  background-color: #666699;
 }
 #level {
+  background-color: #666699;
   float:right;
+  color: white;
+}
+#score {
+  margin-left: 5px;
+  background-color: #666699;
+  color: white;
+}
+#spleensCollected {
+  margin-left: 5px;
+  padding-right:  0px;
+  background-color: #666699;
+  color: white;
 }
 button {
   margin-left: 30px
