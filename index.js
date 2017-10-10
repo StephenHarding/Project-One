@@ -389,7 +389,10 @@ const restart = function() {
       "background-image" : "url(player1.png)"
     })
    levelCheck()
-
+   /*got the timer method from stack overflow https://stackoverflow.com/questions/8126466/javascript-reset-setinterval-back-to-0 */
+    clearInterval(scoreTimer)
+    $("#timer").html(`0:00:00`)
+    scoreTimer = setInterval(time ,1000)
 }
 $('#level').html(`Level ${level}`)
 $('#score').html(`x ${points}`)
@@ -399,8 +402,9 @@ window.setInterval(timer, 150)
 $("#rButton").click(function(event) {
   restart()
 })
+
 let s1 = 0
-window.setInterval(function(){
+const time = function(){
   if (dead === false){
   s1 += 1
   }
@@ -417,4 +421,6 @@ window.setInterval(function(){
   $("#timer").html(`${h}:${m}:${s}`)
   console.log(s1)
 
-}, 1000)
+}
+/*35*/
+var scoreTimer = setInterval(time ,1000)
