@@ -59,7 +59,7 @@ p {
   display: inline-block;
 }
 #pContainer {
-  width: 80%;
+  width: 1000px;
   margin: 0 auto;
   background-color: #666699;
 }
@@ -83,7 +83,7 @@ button {
   margin-left: 30px
 }
 #timer {
-  margin-left: 20px;
+  margin-left: 0px;
   color: green;
   background-color: black;
   width: 50px;

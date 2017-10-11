@@ -12,6 +12,7 @@ let badMove = 0
 let area = document.getElementById('area')
 let thisForDodge
 let dead = false
+var s1 = 0
 document.addEventListener("keydown", function(e){
    if (dead){
       return
@@ -118,7 +119,6 @@ const switchDirection = function($this) {
 
 const createBaddies = function() {
    if (level === 1) {
-
       var baddies = ['baddie0','baddie1','baddie2']
    }
    if (level === 2) {
@@ -234,7 +234,7 @@ const level2dodge = function($this, $p) {
 }
 const level3Collision = function($this, $b) {
    let $play = $('#player').position()
-   if ($play.top > $b.top && $play.top < $b.top + 40 && $play.left > $b.left && $play.left < $b.left + 40 || $play.top + 40 > $b.top  && $play.top + 40 < $b.top + 44 && $play.left + 40 > $b.left - 4 && $play.left + 40 < $b.left + 44) {
+   if ($play.top > $b.top && $play.top < $b.top + 35 && $play.left > $b.left && $play.left < $b.left + 35 || $play.top + 35 > $b.top  && $play.top + 40 < $b.top + 40 && $play.left + 40 > $b.left && $play.left + 40 < $b.left + 40) {
       if (dead === false) {
          $("#sarea").append("<p>You Are Dead. No Hat For You</p>")
          $("#sarea").find("p").css({
@@ -307,6 +307,7 @@ const spaceBar = function() {
     $("#weapon").remove()
     clicked = false
   }, 500)
+
   $(".baddie").each(function(){
     let wP = $("#weapon").position()
     let bP = $(this).position()
@@ -342,12 +343,14 @@ const levelCheck = function() {
          "width" : "65px",
          "background-image" : "url(playerWithSpleenHat.png)"
       })
+
       $('#sarea').append(`<p>Winner ${$('#timer').html()}</p>`)
        $("#sarea").find("p").css({
       "font-size" : "32px",
       "text-align" : "center",
       "vertical-align" : "middle"
       })
+      highScore()
    }
    if (levelChange === true){
 
@@ -365,6 +368,63 @@ const levelCheck = function() {
       levelChange = false
    }
 }
+var ham = localStorage.getItem('highScore1')
+console.log("this is" + ham)
+const highScore = function() {
+  var first = parseInt(localStorage.getItem("score1"))
+  var second = parseInt(localStorage.getItem("score2"))
+  console.log("in HighScore")
+  if (s1 < first && s1 < second) {
+    console.log("threw if")
+    localStorage.setItem("score1", s1)
+    let oldFirst = localStorage.getItem("highScore1")
+    let name = prompt("High Score!!! Please enter your name", "name")
+    name = `${name} ${$("#timer").html()}`
+    localStorage.setItem("highScore1", name)
+    localStorage.setItem("score2", first)
+    localStorage.setItem("highScore2", oldFirst)
+  }
+  else if (s1 < second) {
+    localStorage.setItem("score2", s1)
+    let name = prompt("Runner-Up!!! Please enter your name", "name")
+    name = `${name} ${$("#timer").html()}`
+    localStorage.setItem("highScore2", name)
+  }
+
+
+}
+const reTry = function() {
+  area.style.top = "0px"
+   position.aTop = 0
+   area.style.left = "0px"
+   position.aLeft = 0
+   player.style.top = "100px"
+   position.pTop  = 100
+   player.style.left = "400px"
+   position.pLeft = 400
+   if (level === 1) {
+    level = 0
+    points = 0
+   }
+   else if (level === 2) {
+    level = 1
+    points = 3
+  }
+   else if (level === 3) {
+    level = 2
+    points = 8
+   }
+   else if (level === 4){
+    level = 3
+    points = 13
+   }
+   $('#sarea').find("p").remove()
+   $('#level').html(`Level ${level}`)
+   $('#score').html(`x ${points}`)
+   $(".baddie").remove()
+   dead = false
+   levelCheck()
+}
 const restart = function() {
    area.style.top = "0px"
    position.aTop = 0
@@ -377,7 +437,6 @@ const restart = function() {
    level = 0
    points = 0
    dead = false
-   console.log("code is being run")
    player.focus()
    $('#sarea').find("p").remove()
    $('#level').html(`Level ${level}`)
@@ -402,8 +461,11 @@ window.setInterval(timer, 150)
 $("#rButton").click(function(event) {
   restart()
 })
+$("#rtButton").click(function(event) {
+  reTry()
+})
 
-let s1 = 0
+
 const time = function(){
   if (dead === false){
   s1 += 1
@@ -422,5 +484,4 @@ const time = function(){
   console.log(s1)
 
 }
-/*35*/
 var scoreTimer = setInterval(time ,1000)
