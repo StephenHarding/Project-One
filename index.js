@@ -103,7 +103,6 @@ document.addEventListener("keydown", function(e){
         return 1
       }
     }
-
 const switchDirection = function($this) {
       let x = 0
       let y = 0
@@ -116,7 +115,6 @@ const switchDirection = function($this) {
          $this.find(".by").html(`${y}`)
       }
 }
-
 const createBaddies = function() {
    if (level === 1) {
       var baddies = ['baddie0','baddie1','baddie2']
@@ -147,8 +145,6 @@ const createBaddies = function() {
         switchDirection($this)
   })
 }
-
-
 const pictureSwitch = function($this) {
    if ($this.hasClass("1") && level < 3) {
       $this.css({
@@ -179,7 +175,6 @@ const pictureSwitch = function($this) {
       $this.addClass("1")
     }
 }
-
 /* const homing = function($this){ */
 /*  40 100
   100/40 =
@@ -217,7 +212,6 @@ y = c * x1 */
   let y = c * x1
   $this.find(".bx").html(`${x}`)
   $this.find(".by").html(`${y}`)
-
 }
 */
 const level2dodge = function($this, $p) {
@@ -244,14 +238,10 @@ const level3Collision = function($this, $b) {
       })
       dead = true
       }
-
    }
 }
-
-
 const timer = function() {
   $('.baddie').each(function(){
-
     $p = $(this).position()
     var $this = $(this)
     if (level >= 3) {
@@ -281,16 +271,13 @@ const timer = function() {
       }
     }
     pictureSwitch($this)
-
-    $this.css({'left' : `${$p.left + parseInt($this.children(".bx").html()) + "px"}`,
+  $this.css({'left' : `${$p.left + parseInt($this.children(".bx").html()) + "px"}`,
       "top" : `${$p.top + parseInt($this.children(".by").html()) + "px"}`
       })
-
   })
 }
 let clicked = false
 const spaceBar = function() {
-
   if (clicked === false){
   $('#area').append('<div id="weapon"></div>')
   $('#weapon').css({
@@ -302,13 +289,11 @@ const spaceBar = function() {
     "background-image" : "url(SpleenCollector.png)"
   })
   clicked = true
-
   window.setTimeout(function() {
     $("#weapon").remove()
     clicked = false
   }, 500)
-
-  $(".baddie").each(function(){
+   $(".baddie").each(function(){
     let wP = $("#weapon").position()
     let bP = $(this).position()
 
@@ -328,9 +313,7 @@ const spaceBar = function() {
   })
 }
 }
-
 const levelCheck = function() {
-
    if (points === 8 && level === 2 || points === 13 && level === 3 || points === 3 && level === 1 || level === 0){
       level += 1
       var levelChange = true
@@ -343,7 +326,6 @@ const levelCheck = function() {
          "width" : "65px",
          "background-image" : "url(playerWithSpleenHat.png)"
       })
-
       $('#sarea').append(`<p>Winner ${$('#timer').html()}</p>`)
        $("#sarea").find("p").css({
       "font-size" : "32px",
@@ -353,7 +335,6 @@ const levelCheck = function() {
       highScore()
    }
    if (levelChange === true){
-
       $("#level").html(`Level ${level}`)
       $("#sarea").append(`<p>Level ${level}</p>`)
       $("#sarea").find("p").css({
@@ -374,7 +355,7 @@ const highScore = function() {
   var first = parseInt(localStorage.getItem("score1"))
   var second = parseInt(localStorage.getItem("score2"))
   console.log("in HighScore")
-  if (s1 < first && s1 < second) {
+  if (s1 < first && s1 < second || first === null && second === null) {
     console.log("threw if")
     localStorage.setItem("score1", s1)
     let oldFirst = localStorage.getItem("highScore1")
@@ -384,14 +365,12 @@ const highScore = function() {
     localStorage.setItem("score2", first)
     localStorage.setItem("highScore2", oldFirst)
   }
-  else if (s1 < second) {
+  else if (s1 < second || second === null) {
     localStorage.setItem("score2", s1)
     let name = prompt("Runner-Up!!! Please enter your name", "name")
     name = `${name} ${$("#timer").html()}`
     localStorage.setItem("highScore2", name)
   }
-
-
 }
 const reTry = function() {
   area.style.top = "0px"
@@ -464,8 +443,6 @@ $("#rButton").click(function(event) {
 $("#rtButton").click(function(event) {
   reTry()
 })
-
-
 const time = function(){
   if (dead === false){
   s1 += 1
@@ -482,6 +459,5 @@ const time = function(){
   }
   $("#timer").html(`${h}:${m}:${s}`)
   console.log(s1)
-
 }
 var scoreTimer = setInterval(time ,1000)
